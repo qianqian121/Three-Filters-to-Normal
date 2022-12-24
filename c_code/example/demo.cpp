@@ -47,9 +47,16 @@ int main(){
   cv::split(range_image, matpart);
   result.create(matpart[0].rows, matpart[0].cols, CV_32FC3);
 
+#ifdef USE_RGBD_NORMALS
+//  cv::rgbd::RgbdNormals normal_computer(range_image.rows, range_image.cols, CV_32F, camera, 7, cv::rgbd::RgbdNormals::RGBD_NORMALS_METHOD_FALS);
+  cv::rgbd::RgbdNormals normal_computer(range_image.rows, range_image.cols, CV_32F, camera, 7, cv::rgbd::RgbdNormals::RGBD_NORMALS_METHOD_SRI);
+//  cv::rgbd::RgbdNormals normal_computer(range_image.rows, range_image.cols, CV_32F, camera, 7, cv::rgbd::RgbdNormals::RGBD_NORMALS_METHOD_LINEMOD); // sig abort
+  normal_computer(range_image, result);
+#else
   /*******************the core code*********************/
   TFTN(range_image, camera, R_MEANS_4, &result);
   /*****************************************/
+#endif
 
   output.create(result.rows, result.cols, CV_16UC3);
   for (int i = 0; i < result.rows; ++ i){
