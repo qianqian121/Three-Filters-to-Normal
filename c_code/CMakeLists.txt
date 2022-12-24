@@ -147,7 +147,15 @@ install(FILES ${ALL_HEADERS} DESTINATION include/${PROJECT_NAME})
 #安装tftn.cmake tftn-release.cmake
 install(EXPORT ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/cmake/tftn)
 
-
+add_executable(demo
+        ${CMAKE_SOURCE_DIR}/example/demo.cpp include/tftn/tftn.cpp
+        )
+target_link_libraries(demo
+        ${TFTN_LIBS}
+        ${OpenCV_LIBS}
+        #-lIlmImf        #OpenEXR用的
+        #-lpcgImageIO    #也是OpenEXR好像用的
+        )
 
 #配置动态库
 configure_file(${CMAKE_SOURCE_DIR}/cmake/TFTNConfig.cmake.in ${PROJECT_BINARY_DIR}/TFTNConfig.cmake @ONLY)

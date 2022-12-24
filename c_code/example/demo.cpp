@@ -40,6 +40,7 @@ int main(){
     }
   }
 
+  cv::Mat range_image, result, output;
   //convert depth image to range image. watch out the problem of bgr and rgb.
   cv::rgbd::depthTo3d(depth_image, camera, range_image);
   std::vector<cv::Mat> matpart(3);
